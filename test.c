@@ -8,17 +8,19 @@
 
 void	readfile(int fd)
 {
-	char *buffer;
+	static char *buffer;
 	int bytes;
-	int i = 0;
+	static int i = 0;
 
 	buffer = malloc(sizeof(BUFF_SIZE));
 	bytes = read(fd, buffer, BUFF_SIZE);
-	while (buffer[i] != '\0')
+	while (buffer[i] != '\n')
 	{
 		printf("%c", buffer[i]);
 		i++;
-	}	
+	}
+	buffer[i] = '\0';
+	i++;
 	free(buffer);
 }
 
@@ -27,5 +29,10 @@ int		main(int ac, char **av)
 	if (ac != 2)
 		return (1);
 	readfile(open(av[1], O_RDONLY));
+	putchar('\n');
+	readfile(open(av[1], O_RDONLY));
+	putchar('\n');
+	readfile(open(av[1], O_RDONLY));
+	putchar('\n');
 	return (0);
 }
