@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 17:19:39 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/21 15:14:41 by ezonda           ###   ########.fr       */
+/*   Updated: 2018/11/21 16:45:30 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ char	*ft_reader(int fd, char *str)
 	int reader;
 
 	reader = read(fd, buffer, BUFF_SIZE);
+	while (buffer[reader++] != '\n')
+	{
 		str = ft_strjoin(buffer, str);
+		buffer[reader] = '\0';
+	}
 	return (str);
 }
 
@@ -36,8 +40,10 @@ int		get_next_line(const int fd, char **line)
 	start = i;
 	if ((line == NULL) || (fd < 0))
 		return (-1);
-	if (!(str = (char*)malloc(sizeof(char) * (BUFF_SIZE))))
+	if (!(str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
 		return (-1);
+	if (*str)
+		ft_strcpy(str, *line);
 	str = ft_reader(fd, str);
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
