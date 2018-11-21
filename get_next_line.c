@@ -43,7 +43,7 @@ int		get_next_line(const int fd, char **line)
 	if (!(str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
 		return (-1);
 	if (*str)
-		ft_strcpy(str, *line);
+		ft_strcpy(*line, str);
 	str = ft_reader(fd, str);
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
