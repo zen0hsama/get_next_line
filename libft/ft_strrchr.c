@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/16 17:20:28 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/21 10:54:51 by ezonda           ###   ########.fr       */
+/*   Created: 2018/11/11 00:50:36 by ezonda            #+#    #+#             */
+/*   Updated: 2018/11/14 11:20:53 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# define BUFF_SIZE 4096
+char	*ft_strrchr(const char *s, int c)
+{
+	char	*t;
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+	t = NULL;
+	while (*s)
+	{
+		if (*s == (char)c)
+			t = (char*)s;
+		s++;
+	}
+	if (*s == (char)c)
+		return ((char*)s);
+	else
+		return (t);
+}

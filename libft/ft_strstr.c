@@ -1,21 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/16 17:20:28 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/21 10:54:51 by ezonda           ###   ########.fr       */
+/*   Created: 2018/11/08 09:14:15 by ezonda            #+#    #+#             */
+/*   Updated: 2018/11/11 04:11:31 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# define BUFF_SIZE 4096
+char	*ft_strstr(const char *str, const char *to_find)
+{
+	int i;
+	int j;
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	j = 0;
+	if (to_find[j] == '\0')
+		return ((char *)str);
+	while (str[i])
+	{
+		while ((str[i + j] == to_find[j]) && (str[i]) && (to_find[j]))
+		{
+			j++;
+			if (to_find[j] == '\0')
+				return ((char *)&str[i]);
+		}
+		j = 0;
+		i++;
+	}
+	return (0);
+}
