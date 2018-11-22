@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 08:42:14 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/22 14:30:53 by ezonda           ###   ########.fr       */
+/*   Updated: 2018/11/22 15:38:50 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ int		get_next_line(const int fd, char **line)
 	ret = 1;
 	if (line == NULL || fd < 0)
 		return (-1);
-	if (!(str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
-		return (-1);
+	if (!str)
+		if (!(str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
+			return (-1);
 	while (ret > 0)
 	{
 		ret = read(fd, buffer, BUFF_SIZE);
-		str[ret] = '\0';
+		buffer[ret] = '\0';
 		str = ft_strjoin(str, buffer);
 		if (ret == -1)
 			return (-1);
