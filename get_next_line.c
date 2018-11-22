@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 08:42:14 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/22 15:38:50 by ezonda           ###   ########.fr       */
+/*   Updated: 2018/11/22 16:57:23 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,33 +47,11 @@ int		get_next_line(const int fd, char **line)
 			i++;
 			return (1);
 		}
-		else if (str[i] == '\0')
+		else
 		{
 			*line = ft_strdup(str);
 			return (0);
 		}
-		else
-			return (0);
 	}
 	return (0);
-}
-
-int		main(int ac, char **av)
-{
-	int		fd;
-	char	*line;
-
-	if (ac == 1)
-		fd = 0;
-	else if (ac == 2)
-		fd = open(av[1], O_RDONLY);
-	else
-		return (2);
-	while (get_next_line(fd, &line) == 1)
-	{
-		ft_putendl(line);
-		free(line);
-	}
-	if (ac == 2)
-		close(fd);
 }
