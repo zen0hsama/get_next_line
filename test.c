@@ -1,70 +1,74 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/16 17:19:39 by ezonda            #+#    #+#             */
+/*   Updated: 2018/11/22 08:41:50 by ezonda           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "libft/libft.h"
 #include <stdio.h>
 #include <sys/types.h>
-#include <fcntl.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
-int		checkerror(int fd, char **str, char **line)
+char	*ft_reader(int fd, char *str)
 {
-	if (fd == -1 || line == NULL)
-		return (-1);
-	if (!*str)
-	{
-		if (!(*str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
-			return (-1);
-	}
-	return (0);
-}
+	char buffer[BUFF_SIZE];
+	int reader;
 
-char	*readline(char *str, int fd)
-{
-	char		buff[BUFF_SIZE + 1];
-	int			ret;
-
-	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
+	reader = read(fd, buffer, BUFF_SIZE);
+	if (reader > 0)
 	{
-		buff[ret] = '\0';
-		str = ft_strjoin(str, buff);
-		printf("%s", str);
+		str = ft_strjoin(str, buffer);
 	}
 	return (str);
 }
 
-int		get_next_line(int const fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	static char	*str;
-	int			i;
+	static char *str;
+	static int i;
+	int start;
 
-	if (checkerror(fd, &str, line) == -1)
+	start = i;
+	if ((line == NULL) || (fd < 0))
 		return (-1);
+	if (!(str = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1))))
+		return (-1);
+//	if (*str)
+//		ft_strcpy(*line, str);
+	str = ft_reader(fd, str);
 	if (*str)
-		ft_strcpy(*line, str);
-	str = readline(str, fd);
-	i = 0;
-	if (str[i])
 	{
-		while (str[i] != '\n' && str[i])
+		while (str[i] != EOF && str[i] != '\n')
 			i++;
-		if (i == 0)
-			(*line) = ft_strdup("");
-		else
+		if (str[i] == '\n')
 		{
-			(*line) = ft_strsub(str, 0, i);
-			str = &str[i + 1];
+			*line = ft_strsub(str, start, i - start);
+		//		return (1);
 		}
+		if (str[i] == '\0')
+		{
+			*line = ft_strdup(str);
+		//		return (1);
+		}
+			i++;
+		printf("i = %d\n", i);
 		return (1);
 	}
-	else
-		(*line) = ft_strdup("");
 	return (0);
 }
 
-int		main(int argc, char **argv)
+/*int		main(int argc, char **argv)
 {
-	int		fd;
-	char	*line;
+	int fd;
+	char*line;
 
 	if (argc == 1)
 		fd = 0;
@@ -79,4 +83,4 @@ int		main(int argc, char **argv)
 	}
 	if (argc == 2)
 		close(fd);
-}
+}*/
