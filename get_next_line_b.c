@@ -5,38 +5,46 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/25 08:53:07 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/25 11:51:01 by ezonda           ###   ########.fr       */
+/*   Created: 2018/11/24 10:16:49 by ezonda            #+#    #+#             */
+/*   Updated: 2018/11/25 11:12:20 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
 
-int		ft_check(int fd, char **str, char **line)
+int		get_next_line(int fd, char **line)
 {
-	if (line == NULL || fd < 0)
-		return (-1);
-	if (!str)
-		if(!(*str = ft_strnew(1)))
-			return (-1);
-	return (0);
-}
-
-int		ft_fill_line(char *str, char **line)
-{
+	static char *str;
+	char buffer[BUFF_SIZE + 1];
+	int ret;
 	static int i;
 	int start;
+	char *tmp;
 
 	start = i;
 	if (i == -1)
+	{
+		free(str);
 		return (0);
-	if (!str)
+	}
+	if (line == NULL || fd < 0)
 		return (-1);
-	else
+	if (!str)
+		if (!(str = ft_strnew(1)))
+			return (-1);
+	while ((ret = read(fd, buffer, BUFF_SIZE)))
+	{
+		if (ret < 0)
+			return (-1);
+		tmp = str;
+		buffer[ret] = '\0';
+		str = ft_strjoin(tmp, buffer);
+		free(tmp);
+		if (ft_strchr(&str[i], '\n'))
+			break ;
+	}
+	if (str)
 	{
 		if (ft_strchr(&str[i], '\n'))
 		{
@@ -53,35 +61,10 @@ int		ft_fill_line(char *str, char **line)
 		{
 			*line = ft_strdup(&str[i]);
 			i = -1;
-			if (!ft_strlen(*line))
+			if (!strlen(*line))
 				return (0);
 			return (1);
 		}
 	}
 	return (0);
-}
-
-int		get_next_line(int fd, char **line)
-{
-	static char *str;
-	char buffer[BUFF_SIZE + 1];
-	char *tmp;
-	int ret;
-
-	if (ft_check(fd, &str, line) == -1)
-		return(-1);
-	str = ft_strnew(1);
-	while ((ret = read(fd, buffer, BUFF_SIZE)))
-	{
-		if (ret < 0)
-			return (-1);
-		buffer[ret] = '\0';
-		tmp = ft_strjoin(str,buffer);
-		free(str);
-		str = tmp;
-		if (ft_strchr(buffer, '\n'))
-			break;
-	}
-	ft_fill_line(str, &(*line));
-	return (1);
 }
