@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/16 17:20:28 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/24 18:22:53 by ezonda           ###   ########.fr       */
+/*   Updated: 2018/11/26 01:41:08 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "libft/libft.h"
 
-# define BUFF_SIZE 1
+# define BUFF_SIZE 4096
+# define OPEN_MAX 4864
 
 int		get_next_line(const int fd, char **line);
 
