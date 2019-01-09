@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/30 19:05:32 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/30 19:05:44 by ezonda           ###   ########.fr       */
+/*   Created: 2018/11/22 15:53:09 by ezonda            #+#    #+#             */
+/*   Updated: 2018/11/28 17:32:01 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "get_next_line.h"
+#include "libft/libft.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int		main(int ac, char **av)
 {
-	char	*dest;
+	int		fd;
+	char	*line;
 
-	if (!s1 || !s2)
-		return (NULL);
-	if (!(dest = ft_strnew(ft_strlen(s1) + ft_strlen(s2))))
-		return (NULL);
-	ft_strcpy(dest, s1);
-	ft_strcat(dest, s2);
-	return (dest);
+	if (ac == 1)
+		fd = 0;
+	else if (ac == 2)
+		fd = open(av[1], O_RDONLY);
+	else
+		return (2);
+	while (get_next_line(fd, &line) == 1)
+	{
+		ft_putendl(line);
+		free(line);
+	}
+	if (ac == 2)
+		close(fd);
 }

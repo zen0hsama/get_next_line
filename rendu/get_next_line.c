@@ -6,7 +6,7 @@
 /*   By: ezonda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 10:16:49 by ezonda            #+#    #+#             */
-/*   Updated: 2018/11/28 16:08:48 by ezonda           ###   ########.fr       */
+/*   Updated: 2018/11/30 18:54:21 by ezonda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static int	ft_checkerror(int fd, char **line, char **str)
 {
-	if (fd < 0 || line == NULL || BUFF_SIZE < 0)
+	if (fd < 0 || line == NULL || BUFF_SIZE <= 0 || fd >= OPEN_MAX)
 		return (-1);
 	if (!str[fd])
-		if (!(str[fd] = ft_strnew(1)))
+		if (!(str[fd] = ft_strnew(0)))
 			return (-1);
 	return (0);
 }
