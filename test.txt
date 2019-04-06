@@ -1,3 +1,0 @@
-(1)/premiere ligne\
-(2)/deuxieme ligne\
-(3)/troisieme ligne\
